@@ -1,0 +1,30 @@
+import reflex as rx
+from app.state import DashboardState
+from app.pages.orders import orders_page
+from app.states.orders_state import OrdersState
+from app.components.sidebar import sidebar
+from app.components.main_content import main_content
+
+
+def index() -> rx.Component:
+    return rx.el.div(
+        sidebar(),
+        main_content(),
+        class_name="flex min-h-screen w-full font-['Roboto'] bg-gray-100",
+        on_mount=DashboardState.on_load,
+    )
+
+
+app = rx.App(
+    theme=rx.theme(appearance="light"),
+    head_components=[
+        rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
+        rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
+        rx.el.link(
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap",
+            rel="stylesheet",
+        ),
+    ],
+)
+app.add_page(index, route="/")
+app.add_page(orders_page, route="/orders", on_load=OrdersState.fetch_orders)
