@@ -1,0 +1,26 @@
+📂 northwind-reflex-dashboard
+├── 📄 .gitignore               # Archivos ignorados por Git
+├── 📂 app                      # Directorio principal de la aplicación
+│   ├── 📄 __init__.py
+│   ├── 📄 app.py               # Punto de entrada y definición de rutas
+│   ├── 📂 components           # Componentes reutilizables de la UI
+│   │   ├── 📄 __init__.py
+│   │   ├── 📄 charts.py        # Lógica de visualización (Recharts)
+│   │   ├── 📄 main_content.py  # Layout principal del dashboard
+│   │   └── 📄 sidebar.py       # Navegación lateral
+│   ├── 📂 pages                # Vistas específicas de la aplicación
+│   │   ├── 📄 __init__.py
+│   │   └── 📄 orders.py        # Vista de gestión de pedidos
+│   ├── 📄 state.py             # Estado base de la aplicación
+│   └── 📂 states               # Lógica de estado modularizada
+│       ├── 📄 __init__.py
+│       └── 📄 orders_state.py  # Estado y lógica para pedidos
+├── 📄 apt-packages.txt         # Dependencias de sistema (para despliegue)
+├── 📂 assets                   # Recursos estáticos
+│   ├── 📄 __init__.py
+│   ├── 📄 favicon.ico
+│   └── 📄 placeholder.svg
+├── 📄 northwind_schema.txt      # Referencia del esquema SQL
+├── 📄 plan.md                  # Roadmap y notas del proyecto
+├── 📄 requirements.txt         # Librerías de Python
+└── 📄 rxconfig.py              # Configuración principal de Reflex
