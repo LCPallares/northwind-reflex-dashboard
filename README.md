@@ -21,9 +21,18 @@ Un dashboard moderno de inteligencia de negocios construido íntegramente en Pyt
 - **Base de Datos:** Northwind (SQLite)
 - **Gráficos:** Reflex Recharts
 
+## 📸 Capturas de Pantalla
+
+A continuación se muestran las vistas principales del dashboard operativo en 2026:
+
+| Dashboard Home (Métricas) | Gestión de Pedidos |
+| :--- | :--- |
+| ![Dashboard Home](https://i.imgur.com/biDO52E.png) | ![Orders View](https://i.imgur.com/WyZvy5v.png) |
+
+
+
 ## 📂 Estructura del proyecto
 posiblemente se cambie la estructura a futuro para hacerla mas modular
-
 
 ```
 📂 northwind-reflex-dashboard
