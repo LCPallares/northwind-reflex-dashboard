@@ -5,6 +5,7 @@ from app.pages.products import products_page
 from app.pages.customers import customers_page
 from app.pages.analytics import analytics_page
 from app.states.orders_state import OrdersState
+from app.states.analytics_state import AnalyticsState
 from app.components.sidebar import sidebar
 from app.components.main_content import main_content
 
