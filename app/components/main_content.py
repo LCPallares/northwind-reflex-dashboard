@@ -90,13 +90,14 @@ def main_content() -> rx.Component:
                     type="date",
                     default_value=DashboardState.date_filter_start,
                     on_change=DashboardState.set_date_filter_start,
-                    class_name="border rounded-md p-2",
+                    # bg-gray-50 para el fondo, text-gray-900 para el texto, y scheme-light/dark para el icono
+                    class_name="border border-gray-300 rounded-lg p-2 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all color-scheme-light",
                 ),
                 rx.el.input(
                     type="date",
                     default_value=DashboardState.date_filter_end,
                     on_change=DashboardState.set_date_filter_end,
-                    class_name="border rounded-md p-2",
+                    class_name="border border-gray-300 rounded-lg p-2 bg-gray-50 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all color-scheme-light",
                 ),
                 rx.el.button(
                     "Apply",

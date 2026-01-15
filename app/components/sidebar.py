@@ -86,13 +86,13 @@ def sidebar() -> rx.Component:
             None,
             rx.el.div(
                 rx.el.div(
-                    rx.el.h3("Upgrade to Pro", class_name="text-base font-semibold"),
+                    rx.el.h3("subtitulo", class_name="text-base font-semibold text-gray-800 dark:text-gray-100 tracking-tight"),
                     rx.el.p(
-                        "Unlock all features and get unlimited access to our support team.",
+                        "Ipsun.",
                         class_name="text-sm text-gray-500",
                     ),
                     rx.el.button(
-                        "Upgrade",
+                        "texto boton",
                         class_name="mt-2 w-full bg-teal-500 text-white rounded-lg py-2 text-sm font-medium hover:bg-teal-600",
                     ),
                     class_name="p-4",
