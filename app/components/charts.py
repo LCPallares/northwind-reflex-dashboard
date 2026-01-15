@@ -1,7 +1,12 @@
+"""Componentes de gráficos reutilizables."""
 import reflex as rx
+from typing import List, Dict, Any
+
+
 from app.state import DashboardState
 import plotly.express as px
 import pandas as pd
+
 
 
 def sales_over_time_chart() -> rx.Component:
@@ -200,3 +205,72 @@ def order_status_overview() -> rx.Component:
         ),
         class_name="bg-white p-6 rounded-xl border border-gray-200 shadow-sm h-full",
     )
+
+
+# Colores para los gráficos
+CHART_COLORS = ["#4A90E2", "#50E3C2", "#B8E986", "#F8E71C", "#F5A623", "#D0021B", "#9013FE"]
+
+def base_chart(chart_component: rx.Component, data: List[Dict[str, Any]], data_key: str, x_axis_key: str) -> rx.Component:
+    """Una base para crear gráficos de recharts."""
+    return rx.recharts.responsive_container(
+        chart_component(
+            data=data,
+            margin={"left": -10, "top": 20, "right": 10},
+        ),
+        height=300,
+    )
+
+def generic_line_chart(data: List[Dict[str, Any]], x_axis_key: str, y_axis_keys: List[str]) -> rx.Component:
+    """Un gráfico de líneas genérico con una o más líneas."""
+    lines = [
+        rx.recharts.line(
+            data_key=key,
+            type="monotone",
+            stroke=CHART_COLORS[i % len(CHART_COLORS)],
+            stroke_width=2,
+        )
+        for i, key in enumerate(y_axis_keys)
+    ]
+    chart = base_chart(
+        rx.recharts.line_chart,
+        data,
+        data_key=y_axis_keys[0],
+        x_axis_key=x_axis_key,
+    )
+    chart.children.extend([
+        rx.recharts.x_axis(data_key=x_axis_key, stroke="#9FA5B1"),
+        rx.recharts.y_axis(stroke="#9FA5B1"),
+        rx.recharts.tooltip(
+            content_style={"background": "#1F2937", "border": "1px solid #374151", "border_radius": "0.5rem"}
+        ),
+        rx.recharts.legend(),
+    ])
+    chart.children.extend(lines)
+    return chart
+
+
+def generic_bar_chart(data: List[Dict[str, Any]], x_axis_key: str, y_axis_keys: List[str]) -> rx.Component:
+    """Un gráfico de barras genérico con una o más barras."""
+    bars = [
+        rx.recharts.bar(
+            data_key=key,
+            fill=CHART_COLORS[i % len(CHART_COLORS)],
+        )
+        for i, key in enumerate(y_axis_keys)
+    ]
+    chart = base_chart(
+        rx.recharts.bar_chart,
+        data,
+        data_key=y_axis_keys[0],
+        x_axis_key=x_axis_key,
+    )
+    chart.children.extend([
+        rx.recharts.x_axis(data_key=x_axis_key, stroke="#9FA5B1"),
+        rx.recharts.y_axis(stroke="#9FA5B1"),
+        rx.recharts.tooltip(
+            content_style={"background": "#1F2937", "border": "1px solid #374151", "border_radius": "0.5rem"}
+        ),
+        rx.recharts.legend(),
+    ])
+    chart.children.extend(bars)
+    return chart

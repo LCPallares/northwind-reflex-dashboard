@@ -44,7 +44,6 @@ def main_content() -> rx.Component:
                     on_click=DashboardState.toggle_drawer,
                     class_name="p-2 rounded-md hover:bg-gray-100 text-gray-600",
                 ),
-                # Título con peso visual corregido
                 rx.el.h1(
                     "Dashboard", 
                     class_name="text-2xl font-bold tracking-tight text-gray-900"
