@@ -1,6 +1,9 @@
 import reflex as rx
 from app.state import DashboardState
 from app.pages.orders import orders_page
+from app.pages.products import products_page
+from app.pages.customers import customers_page
+from app.pages.analytics import analytics_page
 from app.states.orders_state import OrdersState
 from app.components.sidebar import sidebar
 from app.components.main_content import main_content
@@ -28,3 +31,6 @@ app = rx.App(
 )
 app.add_page(index, route="/")
 app.add_page(orders_page, route="/orders", on_load=OrdersState.fetch_orders)
+app.add_page(products_page, route="/products")
+app.add_page(customers_page, route="/customers")
+app.add_page(analytics_page, route="/analytics")

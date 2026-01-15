@@ -44,7 +44,6 @@ def main_content() -> rx.Component:
                     on_click=DashboardState.toggle_drawer,
                     class_name="p-2 rounded-md hover:bg-gray-100 text-gray-600",
                 ),
-                #rx.el.h1("Dashboard", class_name="text-2xl font-semibold"),
                 # Título con peso visual corregido
                 rx.el.h1(
                     "Dashboard", 
@@ -53,21 +52,6 @@ def main_content() -> rx.Component:
                 class_name="flex items-center gap-4",
             ),
             rx.el.div(
-                # rx.el.form(
-                #     rx.el.div(
-                #         rx.icon(
-                #             "search",
-                #             class_name="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500",
-                #         ),
-                #         rx.el.input(
-                #             type="search",
-                #             placeholder="Search...",
-                #             class_name="w-full appearance-none bg-white pl-8 shadow-none md:w-2/3 lg:w-1/3 rounded-lg border border-gray-200 py-2",
-                #         ),
-                #         class_name="relative flex-1",
-                #     )
-                # ),
-
                 rx.el.form(
                     rx.el.div(
                         # Icono con color suave para no distraer
@@ -78,7 +62,7 @@ def main_content() -> rx.Component:
                         # Input con estados focus y hover definidos
                         rx.el.input(
                             type="search",
-                            placeholder="Buscar proyectos o datos...",
+                            placeholder="Buscar...",
                             class_name="""
                                 w-full lg:w-[400px] pl-10 pr-4 py-2 
                                 bg-gray-50 border border-gray-200 rounded-xl
