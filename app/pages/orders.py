@@ -10,6 +10,7 @@ def orders_page() -> rx.Component:
             header(),
             rx.el.main(
                 rx.el.div(
+                    order_statistics(),
                     filters(),
                     orders_table(),
                     pagination_controls(),
@@ -27,6 +28,47 @@ def header() -> rx.Component:
     return rx.el.header(
         rx.el.h1("Orders", class_name="text-2xl font-semibold"),
         class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-10",
+    )
+
+
+def order_statistics() -> rx.Component:
+    return rx.el.div(
+        rx.el.div(
+            rx.el.div(
+                rx.icon("shopping-cart", class_name="h-8 w-8 text-blue-500"),
+                rx.el.div(
+                    rx.el.p("Total Orders", class_name="text-sm font-medium text-gray-600"),
+                    rx.el.p(OrdersState.stats["total_orders"], class_name="text-2xl font-bold text-gray-900"),
+                ),
+                class_name="flex items-center space-x-3",
+            ),
+            rx.el.div(
+                rx.icon("dollar-sign", class_name="h-8 w-8 text-green-500"),
+                rx.el.div(
+                    rx.el.p("Total Revenue", class_name="text-sm font-medium text-gray-600"),
+                    rx.el.p(f"${OrdersState.stats['total_revenue']:.2f}", class_name="text-2xl font-bold text-gray-900"),
+                ),
+                class_name="flex items-center space-x-3",
+            ),
+            rx.el.div(
+                rx.icon("trending-up", class_name="h-8 w-8 text-purple-500"),
+                rx.el.div(
+                    rx.el.p("Avg Order Value", class_name="text-sm font-medium text-gray-600"),
+                    rx.el.p(f"${OrdersState.stats['average_order_value']:.2f}", class_name="text-2xl font-bold text-gray-900"),
+                ),
+                class_name="flex items-center space-x-3",
+            ),
+            rx.el.div(
+                rx.icon("package", class_name="h-8 w-8 text-orange-500"),
+                rx.el.div(
+                    rx.el.p("Pending Orders", class_name="text-sm font-medium text-gray-600"),
+                    rx.el.p(OrdersState.stats["pending_orders"], class_name="text-2xl font-bold text-gray-900"),
+                ),
+                class_name="flex items-center space-x-3",
+            ),
+            class_name="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4",
+        ),
+        class_name="bg-white rounded-lg shadow-sm p-6 border",
     )
 
 

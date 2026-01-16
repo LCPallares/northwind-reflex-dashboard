@@ -31,6 +31,14 @@ class DetailedOrder(Order):
     ship_country: str
 
 
+class OrderStats(TypedDict):
+    total_orders: int
+    average_order_value: float
+    total_revenue: float
+    shipped_orders: int
+    pending_orders: int
+
+
 class OrdersState(rx.State):
     orders: list[Order] = []
     selected_order: DetailedOrder | None = None
@@ -43,6 +51,20 @@ class OrdersState(rx.State):
     items_per_page: int = 10
     total_orders: int = 0
     loading: bool = False
+    stats: OrderStats = {
+        "total_orders": 0,
+        "average_order_value": 0.0,
+        "total_revenue": 0.0,
+        "shipped_orders": 0,
+        "pending_orders": 0,
+    }
+    stats: OrderStats = {
+        "total_orders": 0,
+        "average_order_value": 0.0,
+        "total_revenue": 0.0,
+        "shipped_orders": 0,
+        "pending_orders": 0,
+    }
 
     @rx.var
     def total_pages(self) -> int:
@@ -223,3 +245,41 @@ class OrdersState(rx.State):
         if self.current_page > 1:
             self.current_page -= 1
             return OrdersState.fetch_orders
+
+    @rx.event(background=True)
+    async def fetch_stats(self):
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        # Total orders
+        cursor.execute("SELECT COUNT(*) FROM Orders")
+        total_orders = cursor.fetchone()[0]
+        
+        # Total revenue
+        cursor.execute("""
+            SELECT SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) 
+            FROM OrderDetails od
+        """)
+        total_revenue = cursor.fetchone()[0] or 0
+        
+        # Average order value
+        avg_order_value = total_revenue / total_orders if total_orders > 0 else 0
+        
+        # Shipped orders
+        cursor.execute("SELECT COUNT(*) FROM Orders WHERE ShippedDate IS NOT NULL")
+        shipped_orders = cursor.fetchone()[0]
+        
+        # Pending orders
+        cursor.execute("SELECT COUNT(*) FROM Orders WHERE ShippedDate IS NULL")
+        pending_orders = cursor.fetchone()[0]
+        
+        conn.close()
+        
+        async with self:
+            self.stats = {
+                "total_orders": total_orders,
+                "average_order_value": avg_order_value,
+                "total_revenue": total_revenue,
+                "shipped_orders": shipped_orders,
+                "pending_orders": pending_orders,
+            }
