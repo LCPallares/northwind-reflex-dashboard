@@ -11,6 +11,13 @@ from app.components.charts import (
 )
 
 
+# Estilos dinámicos globales
+ESTILO_TEXTO = rx.color_mode_cond(light="text-gray-900", dark="text-gray-100")
+ESTILO_TEXTO_SUAVE = rx.color_mode_cond(light="text-gray-500", dark="text-gray-400")
+ESTILO_BG_CARD = rx.color_mode_cond(light="bg-white", dark="bg-gray-900")
+ESTILO_BORDER = rx.color_mode_cond(light="border-gray-200", dark="border-gray-800")
+
+
 def kpi_card(kpi: dict) -> rx.Component:
     return rx.el.div(
         rx.el.div(
@@ -51,7 +58,8 @@ def main_content() -> rx.Component:
                 ),
                 rx.el.h1(
                     "Dashboard", 
-                    class_name="text-2xl font-bold tracking-tight text-gray-900"
+                    #class_name="text-2xl font-bold tracking-tight text-gray-900"
+                    class_name=f"text-2xl font-bold tracking-tight {ESTILO_TEXTO}"
                 ),
                 class_name="flex items-center gap-4",
             ),
@@ -93,8 +101,8 @@ def main_content() -> rx.Component:
             # PROPIEDADES DIRECTAS PARA EL MODO OSCURO
             bg=rx.color_mode_cond(light="rgba(255, 255, 255, 0.5)", dark="rgba(26, 26, 26, 0.5)"),
             border_bottom=rx.color_mode_cond(light="1px solid #e5e7eb", dark="1px solid #374151"),
-            class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 sticky top-0 z-30 backdrop-blur-sm",
-
+            #class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 sticky top-0 z-30 backdrop-blur-sm",
+            class_name=f"flex items-center justify-between w-full h-14 border-b sticky top-0 z-30 backdrop-blur-sm {ESTILO_BG_CARD} {ESTILO_BORDER}",
         ),
         rx.el.main(
             rx.el.div(
@@ -141,9 +149,14 @@ def main_content() -> rx.Component:
             #class_name="flex flex-col gap-4",
 
             # Fondo del área de contenido
-            bg=rx.color_mode_cond(light="#f9fafb", dark="#111111"), 
-            class_name="flex flex-col gap-4",
-        
+            #bg=rx.color_mode_cond(light="#f9fafb", dark="#111111"), 
+            #class_name="flex flex-col gap-4",
+
+            # Para el fondo principal, usamos un gris casi negro en dark
+            bg=rx.color_mode_cond(light="#f9fafb", dark="#0f0f10"),
+            class_name="min-h-screen p-4",
+
+
         ),
         #class_name="flex-1 flex flex-col bg-gray-50/50",
 
@@ -152,30 +165,13 @@ def main_content() -> rx.Component:
         color=rx.color_mode_cond(light="black", dark="white"), # Cambia el color de fuente global
         class_name="flex-1 flex flex-col min-h-screen",
 
+        # background_color="#87CEFA",  # azul claro
+        # background_color=rx.color("grass", 7),  # verde oscuro
+
     )
 
 
 from reflex.style import set_color_mode, color_mode
-
-def dark_mode_toggle0() -> rx.Component:
-    return rx.segmented_control.root(
-        rx.segmented_control.item(
-            rx.icon(tag="monitor", size=20),
-            value="system",
-        ),
-        rx.segmented_control.item(
-            rx.icon(tag="sun", size=20),
-            value="light",
-        ),
-        rx.segmented_control.item(
-            rx.icon(tag="moon", size=20),
-            value="dark",
-        ),
-        on_change=set_color_mode,
-        variant="classic",
-        radius="large",
-        value=color_mode,
-    )
 
 def dark_mode_toggle() -> rx.Component:
     return rx.segmented_control.root(
