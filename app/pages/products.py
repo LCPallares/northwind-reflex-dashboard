@@ -25,7 +25,7 @@ def products_page() -> rx.Component:
 
 def header() -> rx.Component:
     return rx.el.header(
-        rx.el.h1("Products", class_name="text-2xl font-semibold"),
+        rx.el.h1("Products", class_name="text-2xl font-bold tracking-tight text-gray-900"),
         class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-10",
     )
 
@@ -50,7 +50,7 @@ def product_statistics() -> rx.Component:
                 class_name="flex items-center space-x-3",
             ),
             rx.el.div(
-                rx.icon("alert-triangle", class_name="h-8 w-8 text-orange-500"),
+                rx.icon("triangle_alert", class_name="h-8 w-8 text-orange-500"),
                 rx.el.div(
                     rx.el.p("Low Stock", class_name="text-sm font-medium text-gray-600"),
                     rx.el.p(ProductsState.stats["low_stock_products"], class_name="text-2xl font-bold text-gray-900"),
@@ -58,7 +58,7 @@ def product_statistics() -> rx.Component:
                 class_name="flex items-center space-x-3",
             ),
             rx.el.div(
-                rx.icon("x-circle", class_name="h-8 w-8 text-red-500"),
+                rx.icon("circle_x", class_name="h-8 w-8 text-red-500"),
                 rx.el.div(
                     rx.el.p("Out of Stock", class_name="text-sm font-medium text-gray-600"),
                     rx.el.p(ProductsState.stats["out_of_stock_products"], class_name="text-2xl font-bold text-gray-900"),
@@ -107,7 +107,7 @@ def filters_and_controls() -> rx.Component:
         rx.el.div(
             rx.el.div(
                 rx.el.button(
-                    rx.icon("grid", class_name="h-4 w-4"),
+                    rx.icon("layout_grid", class_name="h-4 w-4"),
                     on_click=lambda: ProductsState.set_view_mode("grid"),
                     class_name=rx.cond(
                         ProductsState.view_mode == "grid",

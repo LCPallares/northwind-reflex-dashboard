@@ -34,7 +34,7 @@ def analytics_page() -> rx.Component:
 
 def header() -> rx.Component:
     return rx.el.header(
-        rx.el.h1("Analytics", class_name="text-2xl font-semibold"),
+        rx.el.h1("Analytics", class_name="text-2xl font-bold tracking-tight text-gray-900"),
         class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-10",
     )
 

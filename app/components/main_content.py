@@ -23,8 +23,13 @@ def kpi_card(kpi: dict) -> rx.Component:
             rx.el.p("+20.1% from last month", class_name="text-xs text-gray-500 mt-1"),
             class_name="p-6",
         ),
-        class_name="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300",
-        style={"box-shadow": "0 1px 3px 0 rgba(0, 0, 0, 0.05)"},
+        #class_name="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300",
+        #style={"box-shadow": "0 1px 3px 0 rgba(0, 0, 0, 0.05)"},
+
+        bg=rx.color_mode_cond(light="white", dark="#262626"),
+        border=rx.color_mode_cond(light="1px solid #e5e7eb", dark="1px solid #3f3f46"),
+        class_name="p-6 rounded-xl shadow-sm",
+
     )
 
 
@@ -80,9 +85,16 @@ def main_content() -> rx.Component:
                     src=f"https://api.dicebear.com/9.x/initials/svg?seed=Admin",
                     class_name="size-9 rounded-full border-2 border-white shadow-sm",
                 ),
+                dark_mode_toggle(),
                 class_name="flex items-center gap-4",
             ),
-            class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-30",
+            #class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-30",
+
+            # PROPIEDADES DIRECTAS PARA EL MODO OSCURO
+            bg=rx.color_mode_cond(light="rgba(255, 255, 255, 0.5)", dark="rgba(26, 26, 26, 0.5)"),
+            border_bottom=rx.color_mode_cond(light="1px solid #e5e7eb", dark="1px solid #374151"),
+            class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 sticky top-0 z-30 backdrop-blur-sm",
+
         ),
         rx.el.main(
             rx.el.div(
@@ -126,7 +138,57 @@ def main_content() -> rx.Component:
                 class_name="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2 p-4 lg:p-6 pt-0",
             ),
             rx.el.div(geo_sales_chart(), class_name="p-4 lg:p-6 pt-0"),
+            #class_name="flex flex-col gap-4",
+
+            # Fondo del área de contenido
+            bg=rx.color_mode_cond(light="#f9fafb", dark="#111111"), 
             class_name="flex flex-col gap-4",
+        
         ),
-        class_name="flex-1 flex flex-col bg-gray-50/50",
+        #class_name="flex-1 flex flex-col bg-gray-50/50",
+
+        # Fondo total de la página
+        bg=rx.color_mode_cond(light="white", dark="#1a1a1a"),
+        color=rx.color_mode_cond(light="black", dark="white"), # Cambia el color de fuente global
+        class_name="flex-1 flex flex-col min-h-screen",
+
     )
+
+
+from reflex.style import set_color_mode, color_mode
+
+def dark_mode_toggle0() -> rx.Component:
+    return rx.segmented_control.root(
+        rx.segmented_control.item(
+            rx.icon(tag="monitor", size=20),
+            value="system",
+        ),
+        rx.segmented_control.item(
+            rx.icon(tag="sun", size=20),
+            value="light",
+        ),
+        rx.segmented_control.item(
+            rx.icon(tag="moon", size=20),
+            value="dark",
+        ),
+        on_change=set_color_mode,
+        variant="classic",
+        radius="large",
+        value=color_mode,
+    )
+
+def dark_mode_toggle() -> rx.Component:
+    return rx.segmented_control.root(
+        rx.segmented_control.item(
+            rx.icon("sun", size=16),
+            value="light",
+        ),
+        rx.segmented_control.item(
+            rx.icon("moon", size=16),
+            value="dark",
+        ),
+        on_change=set_color_mode, # Función integrada de Reflex
+        value=color_mode,        # Variable de estado integrada
+        variant="classic",
+    )
+
