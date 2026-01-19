@@ -1,5 +1,5 @@
 import reflex as rx
-from app.state import DashboardState
+from app.states.dashboard_state import DashboardState
 
 
 def nav_item(icon: str, text: str, href: str, is_active: bool) -> rx.Component:

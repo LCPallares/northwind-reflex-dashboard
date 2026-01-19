@@ -1,5 +1,6 @@
 import reflex as rx
 from app.components.sidebar import sidebar
+from app.components.header import header
 from app.states.analytics_state import AnalyticsState
 
 
@@ -7,7 +8,7 @@ def analytics_page() -> rx.Component:
     return rx.el.div(
         sidebar(),
         rx.el.div(
-            header(),
+            header("Analytics"),
             rx.el.main(
                 rx.el.div(
                     key_metrics_cards(),
@@ -29,13 +30,6 @@ def analytics_page() -> rx.Component:
             class_name="flex-1 flex flex-col bg-gray-50/50",
         ),
         class_name="flex min-h-screen w-full font-['Roboto'] bg-gray-100",
-    )
-
-
-def header() -> rx.Component:
-    return rx.el.header(
-        rx.el.h1("Analytics", class_name="text-2xl font-bold tracking-tight text-gray-900"),
-        class_name="flex items-center justify-between w-full h-14 lg:h-[60px] px-4 lg:px-6 bg-white/50 backdrop-blur-sm border-b sticky top-0 z-10",
     )
 
 

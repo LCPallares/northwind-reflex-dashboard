@@ -3,7 +3,7 @@ import reflex as rx
 from typing import List, Dict, Any
 
 
-from app.state import DashboardState
+from app.states.dashboard_state import DashboardState
 import plotly.express as px
 import pandas as pd
 
