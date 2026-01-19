@@ -61,6 +61,11 @@ class AnalyticsState(rx.State):
     # Seasonal patterns
     seasonal_patterns: list[SeasonalPattern] = []
     
+    # Analytics charts data
+    sales_over_time: list[dict] = []
+    top_products: list[dict] = []
+    sales_by_country: list[dict] = []
+    
     # Key metrics
     total_revenue: float = 0
     total_orders: int = 0
@@ -152,7 +157,56 @@ class AnalyticsState(rx.State):
         """)
         seasonal_data = cursor.fetchall()
         
-        # 6. Key metrics
+        # 6. Analytics charts data
+        # Sales over time for analytics chart  
+        # cursor.execute("""
+        #     SELECT 
+        #         strftime('%b %Y', OrderDate) as month,
+        #         SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) as ventas
+        #     FROM Orders o
+        #     JOIN OrderDetails od ON o.OrderID = od.OrderID
+        #     GROUP BY month
+        #     ORDER BY o.OrderDate
+        #     LIMIT 12
+        # """)
+        cursor.execute("""
+            SELECT
+                strftime('%Y-%m', OrderDate) as month,
+                COUNT(OrderID) as order_count
+            FROM Orders
+            GROUP BY month
+            ORDER BY month;
+        """)
+        sales_over_time_data = cursor.fetchall()
+        
+        # Top products for analytics chart
+        cursor.execute("""
+            SELECT 
+                p.ProductName as producto,
+                SUM(od.Quantity) as cantidad
+            FROM Products p
+            JOIN OrderDetails od ON p.ProductID = od.ProductID
+            GROUP BY p.ProductName
+            ORDER BY cantidad DESC
+            LIMIT 5
+        """)
+        top_products_data = cursor.fetchall()
+        
+        # Sales by country for analytics chart
+        cursor.execute("""
+            SELECT 
+                c.Country as pais,
+                SUM(od.UnitPrice * od.Quantity * (1 - od.Discount)) as ventas
+            FROM Customers c
+            JOIN Orders o ON c.CustomerID = o.CustomerID
+            JOIN OrderDetails od ON o.OrderID = od.OrderID
+            GROUP BY c.Country
+            ORDER BY ventas DESC
+            LIMIT 10
+        """)
+        sales_by_country_data = cursor.fetchall()
+        
+        # 7. Key metrics
         cursor.execute("SELECT COUNT(*) FROM Orders")
         total_orders = cursor.fetchone()[0]
         
@@ -281,6 +335,31 @@ class AnalyticsState(rx.State):
             for row in sorted(customer_data, key=lambda x: x[3] or 0, reverse=True)[:10]
         ]
         
+        # Process analytics charts data
+        sales_over_time = [
+            {
+                "month": row[0],
+                "ventas": row[1] or 0,
+            }
+            for row in sales_over_time_data
+        ]
+        
+        top_products = [
+            {
+                "producto": row[0],
+                "cantidad": row[1] or 0,
+            }
+            for row in top_products_data
+        ]
+        
+        sales_by_country = [
+            {
+                "pais": row[0],
+                "ventas": row[1] or 0,
+            }
+            for row in sales_by_country_data
+        ]
+        
         async with self:
             self.revenue_trends = revenue_trends
             self.category_profitability = category_profitability
@@ -288,6 +367,9 @@ class AnalyticsState(rx.State):
             self.employee_performance = employee_performance
             self.seasonal_patterns = seasonal_patterns
             self.top_customers_clv = top_customers_clv
+            self.sales_over_time = sales_over_time
+            self.top_products = top_products
+            self.sales_by_country = sales_by_country
             self.total_revenue = total_revenue
             self.total_orders = total_orders
             self.avg_order_value = avg_order_value

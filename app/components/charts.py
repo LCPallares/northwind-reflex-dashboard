@@ -211,7 +211,8 @@ from app.states.analytics_state import AnalyticsState
 
 def analytics_sales_over_time() -> rx.Component:
     """Un gráfico de líneas para las ventas a lo largo del tiempo."""
-    return rx.recharts.responsive_container(
+    return rx.el.div(
+        rx.el.h3("Ventas a lo largo del tiempo", class_name="font-semibold text-lg text-gray-800 mb-4"),
         rx.recharts.line_chart(
             rx.recharts.line(
                 data_key="ventas",
@@ -231,9 +232,11 @@ def analytics_sales_over_time() -> rx.Component:
         height=300,
     )
 
+
 def analytics_top_products() -> rx.Component:
     """Un gráfico de barras para el top 5 de productos."""
-    return rx.recharts.responsive_container(
+    return rx.el.div(
+        rx.el.h3("Top 5 productos", class_name="font-semibold text-lg text-gray-800 mb-4"),
         rx.recharts.bar_chart(
             rx.recharts.bar(
                 data_key="cantidad",
@@ -253,7 +256,8 @@ def analytics_top_products() -> rx.Component:
 
 def analytics_sales_by_country() -> rx.Component:
     """Un gráfico de barras para las ventas por país."""
-    return rx.recharts.responsive_container(
+    return rx.el.div(
+        rx.el.h3("Ventas por pais", class_name="font-semibold text-lg text-gray-800 mb-4"),
         rx.recharts.bar_chart(
             rx.recharts.bar(
                 data_key="ventas",

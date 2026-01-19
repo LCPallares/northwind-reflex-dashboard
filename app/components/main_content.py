@@ -1,5 +1,6 @@
 import reflex as rx
 from app.state import DashboardState
+from app.states.analytics_state import AnalyticsState
 from app.components.charts import (
     sales_over_time_chart,
     top_products_chart,
@@ -8,6 +9,9 @@ from app.components.charts import (
     employee_performance_chart,
     geo_sales_chart,
     order_status_overview,
+    analytics_sales_over_time,
+    analytics_top_products,
+    analytics_sales_by_country,
 )
 
 
@@ -121,7 +125,7 @@ def main_content() -> rx.Component:
                 ),
                 rx.el.button(
                     "Apply",
-                    on_click=DashboardState.on_load,
+                    on_click=[DashboardState.on_load, AnalyticsState.fetch_analytics_data],
                     class_name="bg-teal-500 text-white px-4 py-2 rounded-md hover:bg-teal-600",
                 ),
                 class_name="flex items-center gap-4 p-4 lg:p-6",
@@ -136,9 +140,18 @@ def main_content() -> rx.Component:
                 class_name="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2 p-4 lg:p-6 pt-0",
             ),
             rx.el.div(
+                analytics_sales_over_time(),
+                analytics_top_products(),
+                class_name="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2 p-4 lg:p-6 pt-0",
+            ),
+            rx.el.div(
                 category_performance_chart(),
                 employee_performance_chart(),
                 class_name="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-2 p-4 lg:p-6 pt-0",
+            ),
+            rx.el.div(
+                analytics_sales_by_country(),
+                class_name="grid gap-4 md:gap-8 lg:grid-cols-1 xl:grid-cols-1 p-4 lg:p-6 pt-0",
             ),
             rx.el.div(
                 top_customers_table(),

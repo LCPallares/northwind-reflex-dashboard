@@ -17,7 +17,7 @@ def index() -> rx.Component:
         sidebar(),
         main_content(),
         class_name="flex min-h-screen w-full font-['Roboto'] bg-gray-100",
-        on_mount=DashboardState.on_load,
+        on_mount=[DashboardState.on_load, AnalyticsState.fetch_analytics_data],
     )
 
 
