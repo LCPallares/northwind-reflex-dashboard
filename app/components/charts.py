@@ -207,8 +207,6 @@ def order_status_overview() -> rx.Component:
     )
 
 
-from app.states.analytics_state import AnalyticsState
-
 def analytics_sales_over_time() -> rx.Component:
     """Un gráfico de líneas para las ventas a lo largo del tiempo."""
     return rx.el.div(
@@ -226,10 +224,11 @@ def analytics_sales_over_time() -> rx.Component:
                 content_style={"background": "#1F2937", "border": "1px solid #374151", "border_radius": "0.5rem"}
             ),
             rx.recharts.cartesian_grid(stroke_dasharray="3 3"),
-            data=AnalyticsState.sales_over_time,
+            data=DashboardState.analytics_sales_over_time,
             margin={"left": -10, "top": 20, "right": 10},
+            height=350,
         ),
-        height=300,
+        class_name="bg-white p-6 rounded-xl border border-gray-200 shadow-sm",
     )
 
 
@@ -248,7 +247,7 @@ def analytics_top_products() -> rx.Component:
                 content_style={"background": "#1F2937", "border": "1px solid #374151", "border_radius": "0.5rem"}
             ),
             rx.recharts.cartesian_grid(stroke_dasharray="3 3"),
-            data=AnalyticsState.top_products,
+            data=DashboardState.analytics_top_products,
             margin={"left": -10, "top": 20, "right": 10},
         ),
         height=300,
@@ -269,7 +268,7 @@ def analytics_sales_by_country() -> rx.Component:
                 content_style={"background": "#1F2937", "border": "1px solid #374151", "border_radius": "0.5rem"}
             ),
             rx.recharts.cartesian_grid(stroke_dasharray="3 3"),
-            data=AnalyticsState.sales_by_country,
+            data=DashboardState.analytics_sales_by_country,
             margin={"left": -10, "top": 20, "right": 10},
         ),
         height=300,
